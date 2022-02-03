@@ -5,7 +5,7 @@ import {
   useSetItem,
   useGetItem,
   useRemoveItem,
-} from "./components/use-set-get-items";
+} from "./components/use-set-get-remove-items";
 
 function App() {
   const [text, setText] = useState("");
