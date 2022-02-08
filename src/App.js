@@ -1,16 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Addtodo from "./components/add-todo";
 import "./App.css";
-import {
-  useSetItem,
-  useGetItem,
-  useRemoveItem,
-} from "./components/use-set-get-remove-items";
+import useLocalStorage from "./hooks/use-set-get-remove-items";
 
 function App() {
   const [text, setText] = useState("");
-  const [todos, setTodos] = useState(useGetItem("todos"));
-  useSetItem("todos", todos);
+  const [todoList, setTodolist] = useLocalStorage("todoList", []);
+  const [todos, setTodos] = useState(todoList);
+  useEffect(() => {
+    setTodolist(todos);
+  }, [todos]);
 
   const changeText = (e) => {
     setText(e.target.value);
@@ -26,7 +25,6 @@ function App() {
     const newTodos = todos.filter((todo, index) => index !== indexValue);
     setTodos(newTodos);
   };
-  const removeItem = useRemoveItem("todos");
 
   return (
     <div>
@@ -41,15 +39,6 @@ function App() {
             onChange={changeText}
           />
           <input type="submit" value="Add" name="Add" className="button" />
-          <input
-            type="button"
-            value="remove"
-            className="button"
-            onClick={() => {
-              removeItem();
-              setTodos([]);
-            }}
-          />
         </form>
         <Addtodo todolist={todos} delethandler={delethandler} />
       </div>
