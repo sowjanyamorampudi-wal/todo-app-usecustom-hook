@@ -5,7 +5,7 @@ import useLocalStorage from "./hooks/use-set-get-remove-items";
 
 function App() {
   const [text, setText] = useState("");
-  const [todoList, setTodolist] = useLocalStorage("todoList", []);
+  const [todoList, setTodolist, removeList] = useLocalStorage("todoList", []);
   const [todos, setTodos] = useState(todoList);
   useEffect(() => {
     setTodolist(todos);
@@ -39,6 +39,16 @@ function App() {
             onChange={changeText}
           />
           <input type="submit" value="Add" name="Add" className="button" />
+          <input
+            type="button"
+            value="remove"
+            name="remove"
+            className="button"
+            onClick={() => {
+              removeList();
+              setTodos([]);
+            }}
+          />
         </form>
         <Addtodo todolist={todos} delethandler={delethandler} />
       </div>
